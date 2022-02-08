@@ -1,7 +1,7 @@
 import pygame, os, sys, random
 from CONST import *
 from player import *
-
+from enemy import Enemy
 
 class Game():
     def __init__(self):
@@ -29,12 +29,15 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.close()
+            if event.type ==self.ENEMYMOVE:
+                pass
+
     def check_keys(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
-            self.x += 1
+            self.player.x += int(round(PLAYER_SPEED * self.dt))
         if keys[pygame.K_LEFT]:
-            pass
+            self.player.x -= int(round(PLAYER_SPEED * self.dt))
         if keys[pygame.K_SPACE]:
             pass
 
@@ -43,6 +46,14 @@ class Game():
         sys.exit(0)
 
     def game(self):
+        self.ENEMYMOVE = pygame.USEREVENT
+        pygame.time.set_timer(self.ENEMYMOVE, MOVE_RATIO)
+
+        self.enemies = []
+        for y in range(3):
+            for x in range(int(DRAW_SCREEN_SIZE[0] - (BORDER * 2)/42)):
+                enemy = Enemy(x * 40, y * 20, y + 1)
+                self.enemies.append(enemy)
 
         self.player = Player()
 
@@ -57,7 +68,12 @@ class Game():
             self.dt = self.clock.tick(FRAMERATE) * FRAMERATE / 1000
 
     def draw(self):
-        pass
+        self.draw_screen.blit(self.textures["background"], (0,0))
+        self.draw_screen.blit(self.textures["player"], self.player)
+        for enemy in self.enemies:
+            self.draw_screen.blit(self.textures["enemy" + enemy.type], enemy)
+
+
 
     def refresh_screen(self):
         pass
