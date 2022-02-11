@@ -30,7 +30,8 @@ class Game():
             if event.type == pygame.QUIT:
                 self.close()
             if event.type ==self.ENEMYMOVE:
-                pass
+                for enemy in self.enemies:
+                    enemy.move()
 
     def check_keys(self):
         keys = pygame.key.get_pressed()
@@ -56,10 +57,18 @@ class Game():
                 self.enemies.append(enemy)
 
         self.player = Player()
+        self.projectile = []
 
         while True:
             self.check_keys()
             self.check_event()
+
+            for projectile in self.projectiles:
+                if projectile.y < 0 or projectile.y > DRAW_SCREEN_SIZE[1]:
+                    self.projectiles.remove(projectile)
+
+
+
             self.draw()
             self.refresh_screen()
             scaled = pygame.transform.scale(self.draw_screen, SCREEN_SIZE)
@@ -72,7 +81,8 @@ class Game():
         self.draw_screen.blit(self.textures["player"], self.player)
         for enemy in self.enemies:
             self.draw_screen.blit(self.textures["enemy" + enemy.type], enemy)
-
+        for projectile in self.projectile:
+            self.draw_screen.blit(self.textures["projectile" + projectile.type], projectile)
 
 
     def refresh_screen(self):

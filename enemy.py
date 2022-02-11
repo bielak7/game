@@ -11,12 +11,12 @@ class Enemy(pygame.Rect):
 
     def move(self):
         if self.direction == "left":
-            self.x -= ENEMY_SPEED * self.dt
+            self.x -= ENEMY_SPEED
             if self.x <= BORDER:
                 self.direction = "right"
                 self.y += 10
         else:
-            self.x += ENEMY_SPEED * self.dt
+            self.x += ENEMY_SPEED
             if self.x >= DRAW_SCREEN_SIZE[0] - BORDER:
                 self.direction = "left"
                 self.y += 10
