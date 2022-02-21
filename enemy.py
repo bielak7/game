@@ -1,5 +1,5 @@
 import pygame
-from CONST import  *
+from CONST import *
 class Enemy(pygame.Rect):
     def __init__(self, x, y, type):
         self.x = x

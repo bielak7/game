@@ -2,7 +2,7 @@ import pygame
 from CONST import *
 
 
-class Projectile(pygame.Rect):
+class projectile(pygame.Rect):
     def __init__(self, x, y, type):
         self.x = x
         self.y = y

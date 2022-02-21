@@ -57,16 +57,20 @@ class Game():
                 self.enemies.append(enemy)
 
         self.player = Player()
-        self.projectile = []
+
+        self.projectiles = []
 
         while True:
             self.check_keys()
             self.check_event()
 
             for projectile in self.projectiles:
-                if projectile.y < 0 or projectile.y > DRAW_SCREEN_SIZE[1]:
+                if projectile.y < 0 or projectile.y > SCREEN_SIZE[1]:
                     self.projectiles.remove(projectile)
 
+            for projectile in self.projectiles:
+                if projectile.collidedict(self.player):
+                    self.projectiles.remove(projectile)
 
 
             self.draw()
@@ -81,7 +85,7 @@ class Game():
         self.draw_screen.blit(self.textures["player"], self.player)
         for enemy in self.enemies:
             self.draw_screen.blit(self.textures["enemy" + enemy.type], enemy)
-        for projectile in self.projectile:
+        for projectile in self.projectiles:
             self.draw_screen.blit(self.textures["projectile" + projectile.type], projectile)
 
 
